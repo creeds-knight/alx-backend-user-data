@@ -30,7 +30,7 @@ def unauthorized(error) -> str:
 
 
 @app.errorhandler(403)
-def forbidden(error)-> str:
+def forbidden(error) -> str:
     """
         Forbidden error handler
     """
