@@ -4,6 +4,7 @@
 """
 from .auth import Auth
 
+
 class BasicAuth(Auth):
     """
         Performs Basic authentication
