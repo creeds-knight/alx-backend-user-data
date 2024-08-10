@@ -38,10 +38,3 @@ class Auth:
             Returns None
         """
         return None
-
-
-class BasicAuth(Auth):
-    """
-        Performs Basic authentication
-    """
-    pass
