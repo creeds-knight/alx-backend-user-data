@@ -100,7 +100,7 @@ class BasicAuth(Auth):
         if decoded is None:
             return None
 
-        email,paswd = self.extract_user_credentials(decoded)
+        email, paswd = self.extract_user_credentials(decoded)
         if email is None or paswd is None:
             return None
         user = self.user_object_from_credentials(email, paswd)
