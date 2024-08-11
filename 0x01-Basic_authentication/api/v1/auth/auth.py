@@ -21,6 +21,8 @@ class Auth:
         if path[-1] != '/':
             path = path + '/'
         for pa in excluded_paths:
+            if pa[-1] == "*":
+                pa[-1] = "/"
             if pa == path:
                 return False
         return True
