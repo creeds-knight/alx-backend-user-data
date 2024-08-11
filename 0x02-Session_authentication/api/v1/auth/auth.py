@@ -53,6 +53,8 @@ class Auth:
             return None
         try:
             session_ = os.getenv("SESSION_NAME")
+            if session_:
+                cookie = request.cookies.get("session_")
             cookie = request.cookies.get("_my_session_id")
         except Exception:
             return None
