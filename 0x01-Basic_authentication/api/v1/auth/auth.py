@@ -4,6 +4,7 @@
 """
 from flask import request
 from typing import List, TypeVar
+import re
 
 
 class Auth:
@@ -21,9 +22,11 @@ class Auth:
         if path[-1] != '/':
             path = path + '/'
         for pa in excluded_paths:
-            if pa[-1] == "*":
-                pa[-1] = "/"
-            if pa == path:
+            if pa.endswith("*"):
+                pattern = re.escape(pa.rstrip("*")) + '.*'
+                if re.match(pattern, path):
+                    return False
+            elif pa == path:
                 return False
         return True
 
