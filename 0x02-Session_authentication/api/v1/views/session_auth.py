@@ -42,7 +42,7 @@ def logout():
     """
         Logs out a user
     """
-    from api.v1.app.auth
+    from api.v1.app import auth
     is_destroyed = auth.destroy_session(request)
     if not is_destroyed:
         abort(404)
