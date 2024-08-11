@@ -1,30 +1,35 @@
-#!/usr/bin/python3
-""" Check response
+#!/usr/bin/env python3
+""" Main 4
 """
-import requests
+from flask import Flask, request
+from api.v1.auth.session_auth import SessionAuth
+from models.user import User
+
+""" Create a user test """
+user_email = "bobsession@hbtn.io"
+user_clear_pwd = "fake pwd"
+
+user = User()
+user.email = user_email
+user.password = user_clear_pwd
+user.save()
+
+""" Create a session ID """
+sa = SessionAuth()
+session_id = sa.create_session(user.id)
+print("User with ID: {} has a Session ID: {}".format(user.id, session_id))
+
+""" Create a Flask app """
+app = Flask(__name__)
+
+@app.route('/', methods=['GET'], strict_slashes=False)
+def root_path():
+    """ Root path
+    """
+    request_user = sa.current_user(request)
+    if request_user is None:
+        return "No user found\n"
+    return "User found: {}\n".format(request_user.id)
 
 if __name__ == "__main__":
-    cookie_value_send = "Holberton School"
-    r = requests.get('http://0.0.0.0:3456/', cookies={'_cookie_cookie_dough': cookie_value_send})
-    if r.status_code != 200:
-        print("Wrong status code: {}".format(r.status_code))
-        exit(1)
-    if r.headers.get('content-type') != "application/json":
-        print("Wrong content type: {}".format(r.headers.get('content-type')))
-        exit(1)
-
-    try:
-        r_json = r.json()
-
-        cookie_value = r_json.get('cookie')
-        if cookie_value is None:
-            print("Request should contain a cookie")
-            exit(1)
-
-        if cookie_value_send != cookie_value:
-            print("Cookie are different: {} != {}".format(cookie_value, cookie_value_send))
-            exit(1)
-
-        print("OK", end="")
-    except:
-        print("Error, not a JSON")
+    app.run(host="0.0.0.0", port="5000")
