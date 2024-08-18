@@ -18,7 +18,7 @@ def index():
 
 
 @app.route('/users', methods=["POST"], strict_slashes=False)
-def create_user():
+def users():
     """
         A route to register users
     """
