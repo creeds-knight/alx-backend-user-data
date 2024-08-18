@@ -64,3 +64,20 @@ class DB:
         if res is None:
             raise NoResultFound()
         return res
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """
+            Updates a user based on the arguments and unique id
+        """
+        user = self.find_user_by(id=user_id)
+        if user is None:
+            return
+        dict_update = {}
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                dict_update[getattr(User, key)] = value
+            else:
+                raise ValueError()
+            self._session.query(User).filter(User.id == user_id).update(
+                    dict_update, synchronize_session=False,)
+            self._session.commit()
